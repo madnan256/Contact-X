@@ -1,0 +1,34 @@
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: contactsx
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    container_name: dotnet_api
+    depends_on:
+      - postgres
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGUSER: admin
+      PGPASSWORD: admin
+      PGDATABASE: contactsx
+      API_PORT: 3001
+    ports:
+      - "5000:3001"
+
+  frontend:
+    build: ./frontend
+    container_name: react_app
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
