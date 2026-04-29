@@ -147,33 +147,33 @@ app.MapFallbackToFile("index.html");
 var port = Environment.GetEnvironmentVariable("API_PORT") ?? "3001";
 app.Run($"http://0.0.0.0:{port}");
 
-static string BuildConnectionString()
-{
-    var raw = Environment.GetEnvironmentVariable("DATABASE_URL");
-    if (!string.IsNullOrWhiteSpace(raw))
-    {
-        if (raw.StartsWith("postgres://") || raw.StartsWith("postgresql://"))
-        {
-            var uri = new Uri(raw);
-            var userInfo = uri.UserInfo.Split(':', 2);
-            var user = Uri.UnescapeDataString(userInfo[0]);
-            var pass = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : string.Empty;
-            var db = uri.AbsolutePath.TrimStart('/');
-            var port = uri.Port > 0 ? uri.Port : 5432;
-            var sslMode = "Prefer";
-            if (!string.IsNullOrEmpty(uri.Query))
-            {
-                foreach (var pair in uri.Query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
-                {
-                    var kv = pair.Split('=', 2);
-                    if (kv.Length == 2 && string.Equals(kv[0], "sslmode", StringComparison.OrdinalIgnoreCase))
-                        sslMode = Uri.UnescapeDataString(kv[1]);
-                }
-            }
-            return $"Host={uri.Host};Port={port};Username={user};Password={pass};Database={db};SSL Mode={sslMode};Trust Server Certificate=true";
-        }
-        return raw;
-    }
+//static string BuildConnectionString()
+//{
+//    var raw = Environment.GetEnvironmentVariable("DATABASE_URL");
+//    if (!string.IsNullOrWhiteSpace(raw))
+//    {
+//        if (raw.StartsWith("postgres://") || raw.StartsWith("postgresql://"))
+//        {
+//            var uri = new Uri(raw);
+//            var userInfo = uri.UserInfo.Split(':', 2);
+//            var user = Uri.UnescapeDataString(userInfo[0]);
+//            var pass = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : string.Empty;
+//            var db = uri.AbsolutePath.TrimStart('/');
+//            var port = uri.Port > 0 ? uri.Port : 5432;
+//            var sslMode = "Prefer";
+//            if (!string.IsNullOrEmpty(uri.Query))
+//            {
+//                foreach (var pair in uri.Query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
+//                {
+//                    var kv = pair.Split('=', 2);
+//                    if (kv.Length == 2 && string.Equals(kv[0], "sslmode", StringComparison.OrdinalIgnoreCase))
+//                        sslMode = Uri.UnescapeDataString(kv[1]);
+//                }
+//            }
+//            return $"Host={uri.Host};Port={port};Username={user};Password={pass};Database={db};SSL Mode={sslMode};Trust Server Certificate=true";
+//        }
+//        return raw;
+//    }
 
     var host = Environment.GetEnvironmentVariable("PGHOST") ?? "localhost";
     var pgPort = Environment.GetEnvironmentVariable("PGPORT") ?? "5432";
