@@ -1,1 +1,11 @@
-{"Version":1,"Hash":"vuhCGEREHP3vOpjuVwhLwGrn8tQmhgZUlNbQP9eWREc=","Source":"ContactsX.Api","BasePath":"/","Mode":"Root","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
+{
+  "Version": 1,
+  "Hash": "cD+qCZ6OLyWDSZyWLHnOK4RqVPXOqew1+RQVqzMq1Us=",
+  "Source": "ContactsX.Api",
+  "BasePath": "_content/ContactsX.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
