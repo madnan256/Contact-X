@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ContactsX.Api.Data;
 using ContactsX.Api.Services;
-
+//Added Comment #2
 var builder = WebApplication.CreateBuilder(args);
 
 var jwtSecret = builder.Configuration["Jwt:Secret"] ?? "ContactsX-Super-Secret-Key-2026-Must-Be-32-Chars!";
