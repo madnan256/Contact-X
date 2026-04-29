@@ -1,0 +1,72 @@
+Fix Entity Import Field Mapping (Strict Column Mapping Compliance)
+Fix the Entity Import functionality to strictly match the required column mappings below.
+Do NOT simplify.
+Do NOT ignore alternate column names.
+Do NOT allow unmapped fields.
+________________________________________
+1️⃣ Entity Import Field Mapping (Strict)
+The import system must accept ONLY the following mappings:
+nameEn →
+• nameEn
+• name_en
+• Name (English)
+• الاسم بالإنجليزية
+nameAr →
+• nameAr
+• name_ar
+• Name (Arabic)
+• الاسم بالعربية
+entityType →
+• entityType
+• entity_type
+• Entity Type
+• نوع الجهة
+country →
+• country
+• Country
+• الدولة
+sector →
+• sector
+• Sector
+• القطاع
+Mapping must be case-sensitive exactly as defined above.
+________________________________________
+2️⃣ Validation Rules
+• nameEn is required
+• nameEn must accept English characters only
+• nameAr must accept Arabic characters only (if provided)
+• entityType must match allowed enum values:
+•	public
+•	semi-government
+•	private
+•	international
+•	ngo
+• country must be valid from allowed countries list
+• sector must not be empty (if required by business rule)
+Invalid rows must return row-level errors.
+________________________________________
+3️⃣ Normalization Rules
+entityType must be normalized (case-insensitive):
+Examples:
+Public → public
+PUBLIC → public
+semi government → semi-government
+Reject unknown values.
+________________________________________
+4️⃣ Import Behavior
+• Validate during preview
+• Prevent import if errors exist
+• Return:
+•	Success count
+•	Failed rows
+•	Error messages per row
+• Re-validate if same file is reselected
+• Do NOT create duplicate entities if identical nameEn already exists (optional if defined)
+________________________________________
+5️⃣ Final Requirements
+• Do NOT modify import popup layout
+• Do NOT break contact import
+• Ensure server-side validation mirrors frontend validation
+• Ensure clean mapping and strict compliance
+Fix Entity import completely and align with mapping specification.
+

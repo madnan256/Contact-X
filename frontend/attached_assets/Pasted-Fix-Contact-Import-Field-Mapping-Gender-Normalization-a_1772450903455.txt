@@ -1,0 +1,146 @@
+Fix Contact Import Field Mapping, Gender Normalization, and Intelligent Entity Matching
+Fix the Contact Import functionality to strictly match the required column mappings, normalization rules, and entity matching logic.
+Do NOT simplify.
+Do NOT ignore alternate column names.
+Do NOT break existing import structure.
+________________________________________
+1️⃣ Contact Import Field Mapping (Strict)
+The import system must support the following exact mappings:
+firstName →
+• firstName
+• first_name
+• First Name
+• الاسم الأول
+lastName →
+• lastName
+• last_name
+• Last Name
+• اسم العائلة
+prefix →
+• prefix
+• Prefix
+• اللقب
+middleName →
+• middleName
+• middle_name
+• Middle Name
+• الاسم الأوسط
+suffix →
+• suffix
+• Suffix
+• اللاحقة
+firstNameAr →
+• firstNameAr
+• first_name_ar
+• First Name (Arabic)
+• الاسم الأول بالعربية
+lastNameAr →
+• lastNameAr
+• last_name_ar
+• Last Name (Arabic)
+• اسم العائلة بالعربية
+prefixAr →
+• prefixAr
+• prefix_ar
+• Prefix (Arabic)
+• اللقب بالعربية
+middleNameAr →
+• middleNameAr
+• middle_name_ar
+• Middle Name (Arabic)
+• الاسم الأوسط بالعربية
+suffixAr →
+• suffixAr
+• suffix_ar
+• Suffix (Arabic)
+• اللاحقة بالعربية
+gender →
+• gender
+• Gender
+• الجنس
+dateOfBirth →
+• dateOfBirth
+• date_of_birth
+• Date of Birth
+• تاريخ الميلاد
+nationality →
+• nationality
+• Nationality
+• الجنسية
+nationalId →
+• nationalId
+• national_id
+• National ID
+• الرقم الوطني
+contactType →
+• contactType
+• contact_type
+• Contact Type
+• نوع جهة الاتصال
+currentPosition →
+• currentPosition
+• current_position
+• Current Position
+• المنصب الحالي
+currentEntityName →
+• currentEntityName
+• current_entity_name
+• Current Entity
+• الجهة الحالية
+email →
+• email
+• emails
+• Email
+• البريد الإلكتروني
+phone →
+• phone
+• phones
+• Phone
+• الهاتف
+Mapping must be case-sensitive as defined above.
+________________________________________
+2️⃣ Confirm Gender Normalization (Mandatory)
+Normalize input values as follows:
+male, ذكر, m → male
+female, أنثى, f → female
+Normalization must:
+• Be case-insensitive
+• Trim whitespace
+• Reject invalid values
+Invalid gender values must trigger row-level validation error.
+________________________________________
+3️⃣ Intelligent Entity Matching (Strict)
+During Contact Import:
+If currentEntityName has a value:
+1.	Compare against all system entities:
+• Match nameEn using case-insensitive comparison
+• Match nameAr using exact match
+2.	If match found:
+• Set currentEntityId to matched entity ID
+• Clear currentEntityName
+3.	If no match found:
+• Keep value in currentEntityName (free text)
+• Do NOT create new entity automatically
+This must happen server-side.
+________________________________________
+4️⃣ Validation Rules
+• firstName required
+• lastName required
+• Date of Birth valid format
+• National ID numbers only
+• Email valid
+• Phone numbers only
+• contactType must be valid enum
+• Gender must be normalized correctly
+Row-level errors must include:
+• Row number
+• Error description
+________________________________________
+5️⃣ Final Requirements
+• Do NOT break existing import popup
+• Do NOT modify UI layout
+• Ensure same file reselect works
+• Ensure preview shows normalized values
+• Ensure backend validation mirrors frontend validation
+Fix import logic completely and ensure strict compliance.
+

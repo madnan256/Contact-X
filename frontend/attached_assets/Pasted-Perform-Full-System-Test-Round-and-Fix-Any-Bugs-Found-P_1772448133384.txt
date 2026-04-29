@@ -1,0 +1,90 @@
+Perform Full System Test Round and Fix Any Bugs Found
+Perform a complete end-to-end test round across the entire system.
+Your task is to:
+1.	Test all modules.
+2.	Identify any bugs, validation gaps, incorrect calculations, missing UI actions, broken navigation, incorrect API behavior, or data inconsistencies.
+3.	Fix all detected issues.
+4.	Ensure no regressions are introduced.
+Do NOT redesign the UI.
+Do NOT remove features.
+Only fix bugs and inconsistencies.
+________________________________________
+Areas to Test
+1️⃣ Authentication
+• Login works
+• JWT protection works
+• Unauthorized access blocked
+________________________________________
+2️⃣ Contacts
+• Create / Edit / Delete
+• Validations (English, Arabic, DOB, National ID, Email, Phone)
+• Nationality dropdown works
+• Entity mutual exclusivity works
+• Completeness calculation correct
+• Relationships add/unlink works
+________________________________________
+3️⃣ Entities
+• Create / Edit / Delete
+• Parent entity cannot equal self
+• Completeness calculation (weighted formula) correct
+• Contact Points validation
+• Address component works
+• Relationships add/unlink works
+________________________________________
+4️⃣ Relationships
+• Prevent duplicate relations
+• Primary flag works
+• Unlink works
+• Audit log created
+________________________________________
+5️⃣ Unified Search
+• Search works for contacts and entities
+• Arabic + English search works
+• Tabs work
+• Client-side filters work
+• Clear filters works
+________________________________________
+6️⃣ Duplicate Detection
+• Run Detection works
+• Detects contacts + entities
+• Merge works
+• Dismiss works
+• Snapshots preserved
+• Status filter works
+• History view works
+________________________________________
+7️⃣ Import
+• Upload works
+• Same file reselection resets state
+• Validations applied
+• Normalization works
+• Entity matching works
+________________________________________
+8️⃣ Dashboards
+• All KPIs match BRD
+• Calculations correct
+• Charts display correct data
+• Top Engaged Entities correct
+• Drill-down works
+________________________________________
+9️⃣ Audit Logs
+• Logs created for Create, Update, Delete, Merge
+• Filters work
+________________________________________
+🔟 UI & UX
+• RTL works
+• Dark/Light mode works
+• Mobile & tablet responsive
+• No broken buttons
+• No console errors
+________________________________________
+Final Requirement
+After fixing all issues:
+• Ensure no regressions
+• Ensure data integrity
+• Ensure backend validations enforced
+• Ensure frontend does not bypass rules
+Do not stop until the system is stable and fully functional.
+________________________________________
+If you'd like, I can also generate a more aggressive “Production Hardening Test Prompt” that forces edge-case testing and security checks.
+

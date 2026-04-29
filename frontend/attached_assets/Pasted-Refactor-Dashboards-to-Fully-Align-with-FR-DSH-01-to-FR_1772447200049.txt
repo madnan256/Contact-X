@@ -1,0 +1,77 @@
+Refactor Dashboards to Fully Align with FR-DSH-01 to FR-DSH-05
+Refactor all Dashboard tabs to strictly match the BRD requirements below.
+Do NOT leave legacy KPIs.
+Do NOT keep removed metrics.
+Ensure correct chart types and accurate backend calculations.
+________________________________________
+1️⃣ Overview Dashboard (FR-DSH-01)
+Must include:
+KPI Cards:
+• Total Contacts
+• Total Entities
+• Active Contacts Count
+• Active Entities Count
+• Average Profile Completeness
+• Pending Duplicate Candidates
+• Recent Activity (Last 30 Days)
+Charts:
+• Contacts by Type → Pie (or Bar) Chart
+• Entities by Type → Pie (or Bar) Chart
+________________________________________
+2️⃣ Executive Dashboard (FR-DSH-02)
+Remove:
+• Total Records (delete completely)
+Add KPI Cards:
+• Total Contacts
+• Total Entities
+• Contact Completeness Rate
+• Entity Completeness Rate
+• Duplicate Risk Index
+Add Charts:
+• Top Engaged Entities → Bar Chart
+• Contacts by Type → Pie Chart
+• Entities by Type → Pie Chart
+• Completeness Distribution → Histogram / Bar Chart
+Ensure:
+• Duplicate Risk Index = % of unresolved duplicates
+• Top Engaged Entities sorted by relationship count
+________________________________________
+3️⃣ Governance Dashboard (FR-DSH-03)
+Keep:
+• Weak Profiles
+• Orphan Records
+Add:
+• Duplicate Metrics (Total, Pending, Resolved, Resolution Rate)
+• Mandatory Field Violations
+• VIP Profiles Incomplete
+Remove any other non-listed KPIs.
+Each KPI must support drill-down navigation.
+________________________________________
+4️⃣ Operational Dashboard (FR-DSH-04)
+Add:
+• Recently Created Records
+• Most Active Contacts
+Ensure existing operational metrics remain:
+• Active Contacts (30/90/365 days)
+• Active Entities (30/90 days)
+• Contacts with Multiple Entities
+• Average Entities per Contact
+• Recently Inactive Contacts
+Most Active Contacts → Bar Chart
+________________________________________
+5️⃣ Analytics Page (FR-DSH-05)
+Must include:
+• Contact Distribution by Type → Pie Chart
+• Entity Distribution by Type → Pie Chart
+• Profile Completeness Distribution → Bar Chart
+• Activity Trends Over Time → Line Chart
+________________________________________
+Technical Requirements
+• Ensure all KPIs are calculated server-side
+• Ensure chart data is accurate
+• Load tab data lazily
+• Support Dark Mode and RTL
+• Do NOT change layout structure
+• Remove deprecated metrics completely
+Refactor dashboards to exactly match BRD definitions.
+

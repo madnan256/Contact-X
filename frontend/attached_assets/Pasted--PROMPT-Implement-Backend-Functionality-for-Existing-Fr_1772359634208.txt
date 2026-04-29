@@ -1,0 +1,258 @@
+
+PROMPT: Implement Backend & Functionality for Existing Frontend (Do NOT Change UI)
+You are given a fully built frontend UI project.
+Your task is to implement the backend, APIs, database structure, business logic, and integration — WITHOUT modifying the existing UI design.
+Do NOT redesign UI.
+Do NOT change layouts.
+Do NOT restructure components.
+Only connect functionality and enforce correct business rules.
+________________________________________
+1. Architecture Requirements
+Backend
+Implement using Clean Architecture:
+• Domain (pure business logic)
+• Application (use cases, validation, DTOs)
+• Infrastructure (JWT, hashing, file parsing)
+• Persistence (database, repositories)
+• API layer (controllers only)
+No business logic in controllers.
+All validations must exist server-side even if frontend already validates.
+________________________________________
+2. DATABASE STRUCTURE (STRICTLY BASED ON BRD) 
+Create the following tables exactly: 
+//TABLE: users 
+users{ 
+id: uuid PRIMARY KEY DEFAULT gen_random_uuid() username (unique, required) 
+passwordHash: text 
+role: enum 
+isActive: boolean 
+createdAt: timestamp 
+updatedAt: timestamp 
+} 
+// TABLE: contacts  
+contacts {  
+   id: uuid PRIMARY KEY DEFAULT gen_random_uuid()  
+   prefix: text  
+   firstName: text NOT NULL  
+   middleName: text  
+   lastName: text NOT NULL  
+   suffix: text  
+   prefixAr: text  
+   firstNameAr: text  
+   middleNameAr: text  
+   lastNameAr: text  
+   suffixAr: text  
+   gender: text  // 'male' | 'female'  
+   dateOfBirth: text  
+   nationality: text  
+   nationalId: text  
+   contactType: text NOT NULL DEFAULT 'citizen'  // 'citizen'|'employee'|'external'|'vip'  
+   currentPosition: text  
+   currentEntityId: uuid REFERENCES entities(id)  
+   currentEntityName: text  
+   emails: jsonb DEFAULT '[]'  
+   phones: jsonb DEFAULT '[]'  
+   addresses: jsonb DEFAULT '[]'  
+   classifications: jsonb DEFAULT '[]'  
+   profileCompleteness: integer DEFAULT 0  
+   isActive: boolean DEFAULT true  
+   createdAt: timestamp DEFAULT now()  
+   updatedAt: timestamp DEFAULT now()  
+}  
+   
+// TABLE: entities  
+entities {  
+   id: uuid PRIMARY KEY DEFAULT gen_random_uuid()  
+   nameEn: text NOT NULL  
+   nameAr: text  
+   entityType: text NOT NULL  // 'public'|'semi-government'|'private'|'international'|'ngo'  
+   country: text  
+   sector: text  
+   registrationId: text  
+   parentEntityId: uuid REFERENCES entities(id)  
+   addresses: jsonb DEFAULT '[]'  
+   contactPoints: jsonb DEFAULT '[]'  
+   profileCompleteness: integer DEFAULT 0  
+   isActive: boolean DEFAULT true  
+   createdAt: timestamp DEFAULT now()  
+   updatedAt: timestamp DEFAULT now()  
+}  
+   
+// TABLE: contact_entity_relations  
+contact_entity_relations {  
+   id: uuid PRIMARY KEY DEFAULT gen_random_uuid()  
+   contactId: uuid NOT NULL REFERENCES contacts(id) ON DELETE CASCADE  
+   entityId: uuid NOT NULL REFERENCES entities(id) ON DELETE CASCADE  
+   role: text NOT NULL  
+   isPrimary: boolean DEFAULT false  
+   isActive: boolean DEFAULT true  
+   startDate: text  
+   endDate: text  
+   createdAt: timestamp DEFAULT now()  
+}  
+   
+// TABLE: audit_logs  
+audit_logs {  
+   id: uuid PRIMARY KEY DEFAULT gen_random_uuid()  
+   entityType: text NOT NULL  // 'contact' | 'entity'  
+   entityId: uuid NOT NULL  
+   action: text NOT NULL  // 'create' | 'update' | 'delete' | 'merge'  
+   changes: jsonb  
+   performedBy: uuid  
+   createdAt: timestamp DEFAULT now()  
+}  
+   
+// TABLE: duplicate_candidates  
+duplicate_candidates {  
+   id: uuid PRIMARY KEY DEFAULT gen_random_uuid()  
+   entityType: text NOT NULL  // 'contact' | 'entity'  
+   record1Id: uuid NOT NULL  
+   record2Id: uuid NOT NULL  
+   matchScore: integer NOT NULL  // 0-100  
+   matchReasons: jsonb DEFAULT '[]'  
+   status: text DEFAULT 'pending'  // 'pending' | 'merged' | 'dismissed'  
+   createdAt: timestamp DEFAULT now()  
+   resolvedAt: timestamp  
+   resolvedBy: uuid  
+}  
+   
+// TABLE: kpi_snapshots  
+kpi_snapshots {  
+   id: uuid PRIMARY KEY DEFAULT gen_random_uuid()  
+   kpiName: text NOT NULL  
+   kpiValue: numeric NOT NULL  
+   kpiDetails: jsonb  
+   snapshotDate: date DEFAULT now()  
+}  
+   ________________________________________
+3. Authentication
+Implement:
+• Users table
+• Secure password hashing
+• Login endpoint
+• JWT authentication
+• Protect all APIs except login
+Frontend login page already exists — connect it.
+Return JWT on login.
+________________________________________
+4. Contacts Functionality
+Implement:
+• Create
+• Update
+• Delete
+• Get by ID
+• List
+Server-side validations:
+• English name → English only
+• Arabic name → Arabic only
+• National ID → numbers only
+• Date of birth → valid, not future
+• Email → valid format
+• Only one primary email
+• Phone → numbers only
+Do NOT change frontend forms.
+Reject invalid requests from API.
+________________________________________
+5. Entities Functionality
+Implement:
+• Create
+• Update
+• Delete
+• Get by ID
+• List
+Validations:
+• nameEn required
+• English only
+• Arabic validation
+• Parent cannot equal self
+Do NOT modify frontend components.
+________________________________________
+6. Relationships
+Implement many-to-many:
+• Prevent duplicate relationship (ContactId + EntityId unique)
+• Validate role required
+• Support primary flag
+Frontend popup already exists — connect it to API.
+________________________________________
+7. Unified Search
+Implement single endpoint:
+Accepts only query parameter.
+Search across:
+Contacts:
+• English & Arabic names
+• National ID
+Entities:
+• nameEn, nameAr
+• registrationId
+• contactPoints
+Return categorized result:
+• contacts
+• entities
+Frontend handles tabs and filters.
+________________________________________
+8. Duplicate Detection
+Implement:
+Run detection endpoint.
+Detect duplicates by:
+Contacts:
+• name/email/phone
+Entities:
+• nameEn/nameAr/registrationId/contactPoints
+Store snapshots before merge.
+Implement:
+• Merge endpoint
+• Dismiss endpoint
+________________________________________
+9. Import
+Frontend popup already exists.
+Implement backend endpoint that:
+• Accepts parsed JSON
+• Validates records
+• Normalizes gender/contactType/entityType
+• Performs intelligent entity matching
+• Returns success count + row errors
+________________________________________
+10. Dashboard
+Implement backend KPIs:
+• Total contacts
+• Total entities
+• Active records
+• Completeness rates
+• Duplicate metrics
+• Top engaged entities (count relationships correctly)
+Frontend charts already built — return correct data format.
+________________________________________
+11. Audit Logs
+Log:
+• Create
+• Update
+• Delete
+• Merge
+Expose endpoint with filters:
+• Entity Type
+• Action
+Frontend page already built — connect it.
+________________________________________
+12. Critical Rules
+• Do NOT modify UI files
+• Do NOT change component structure
+• Do NOT rename frontend models
+• Ensure API contracts match frontend expectations
+• Validate everything server-side
+• Add DB constraints for data integrity
+• Prevent duplicate relationships
+• Preserve duplicate snapshot data after merge
+________________________________________
+13. Final Verification
+Before finishing:
+• Login works
+• JWT protects APIs
+• Create/Edit works
+• Relationships prevent duplicates
+• Duplicate detection works for contacts and entities
+• Import normalization works
+• Search returns correct grouped results
+• Dashboard numbers accurate
+Do not redesign UI.
+Only implement functionality cleanly and correctly.
+
