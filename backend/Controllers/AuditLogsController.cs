@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ContactsX.Api.Data;
 
 namespace ContactsX.Api.Controllers;
-
+//Added Comment
 [ApiController]
 [Route("api/audit-logs")]
 [Authorize]
